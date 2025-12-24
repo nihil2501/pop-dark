@@ -23,11 +23,13 @@ All consume VSCode JSON. Compare implementations before choosing.
 | vscode_theme_converter | tmTheme + Ghostty + ANSI map | Python; most complete |
 | json2tm | tmTheme | Rust; minimal |
 | theme-converter | tmTheme | Rust; lib only |
+| code-theme-converter | tmTheme (or sublime-color-scheme) | Node; takes repo URL |
 
 ## Strategy
 1. Pull VSCodePopTheme as source artifact
-2. Evaluate converters → produce tmTheme (bat, opencode) + Ghostty
-3. Ghostty may need manual tuning (bright/dark semantics)
+2. Review existing VSCode → helix mapping for quality/gaps
+3. Evaluate converters → produce tmTheme (bat, opencode) + Ghostty
+4. Ghostty may need manual tuning (bright/dark semantics)
 
 ## Documents (TBD)
 - `docs/source.md` — VSCodePopTheme + helix lineage
