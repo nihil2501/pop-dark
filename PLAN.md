@@ -68,6 +68,15 @@ The `vendor/converters/` directory contains 5 reference implementations for them
 
 ## Next Steps
 
-1. **Write `scripts/generate-tmtheme.ts`** — Convert helix.toml → tmTheme using `docs/syntax.md`
+1. **Write `scripts/generate-tmtheme.ts`** — TypeScript generator that:
+   - Parses `themes/helix.toml` (TOML → palette + scopes)
+   - Embeds the scope mapping from `docs/syntax.md` directly in code
+   - Resolves palette references to hex values
+   - Emits XML plist format
+   - Run with: `bun run scripts/generate-tmtheme.ts`
+
 2. **Generate `themes/pop-dark.tmTheme`** — Run generator
-3. **Validate** — Test in bat, opencode
+
+3. **Validate** — Test with:
+   - `bat --theme-file themes/pop-dark.tmTheme <source-file>`
+   - opencode theme integration

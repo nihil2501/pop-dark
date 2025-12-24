@@ -134,6 +134,16 @@ Helix modifiers map to tmTheme `fontStyle`:
 
 Multiple modifiers combine: `bold italic` → `"bold italic"`
 
-## Generator Usage
+## Generator
 
-A generator script will read this mapping and `themes/helix.toml` to produce tmTheme files for bat, opencode, and other tools.
+The mapping defined above will be implemented in `scripts/generate-tmtheme.ts`. The script will:
+
+1. Parse `themes/helix.toml` to extract palette and scope definitions
+2. Apply scope translations (helix → tmTheme)
+3. Resolve palette color references to hex values
+4. Convert helix modifiers to tmTheme fontStyle
+5. Emit XML plist format to `themes/pop-dark.tmTheme`
+
+Run with: `bun run scripts/generate-tmtheme.ts`
+
+Reference implementations for tmTheme structure are in `vendor/converters/`.
