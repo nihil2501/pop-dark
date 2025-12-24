@@ -31,8 +31,10 @@ All consume VSCode JSON. Compare implementations before choosing.
 3. Evaluate converters → produce tmTheme (bat, opencode) + Ghostty
 4. Ghostty may need manual tuning (bright/dark semantics)
 
-## Documents (TBD)
-- `docs/source.md` — VSCodePopTheme + helix lineage
+## Documents
+- `docs/converters.md` — converter comparison and selection
+- `docs/vscode.md` — VSCodePopTheme upstream source
+- `docs/helix.md` — helix theme review
 - `docs/ghostty.md` — ANSI mapping decisions
 - `docs/bat.md` — tmTheme generation
 - `docs/opencode.md` — tmTheme integration
