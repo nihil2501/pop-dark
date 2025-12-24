@@ -45,99 +45,97 @@ interface GlobalSettings {
 // Scope Mapping: Helix -> tmTheme
 // -----------------------------------------------------------------------------
 
-// Direct mappings (helix scope === tmTheme scope)
-const DIRECT_SCOPES = [
-  "comment",
-  "comment.line",
-  "comment.block",
-  "comment.block.documentation",
-  "string",
-  "string.regexp",
-  "constant",
-  "constant.numeric",
-  "constant.character",
-  "constant.character.escape",
-  "variable",
-  "variable.parameter",
-  "keyword",
-  "keyword.control",
-  "keyword.operator",
-  "operator",
-  "punctuation",
-  "markup.heading",
-  "markup.bold",
-  "markup.italic",
-  "markup.strikethrough",
-  "markup.quote",
-  "markup.raw",
-  "markup.list",
-] as const;
+// Helix scope -> { tmTheme scope, human-readable name }
+const SCOPE_MAP: Record<string, { scope: string; name: string }> = {
+  // Comments
+  "comment": { scope: "comment", name: "Comments" },
+  "comment.line": { scope: "comment.line", name: "Line Comments" },
+  "comment.block": { scope: "comment.block", name: "Block Comments" },
+  "comment.block.documentation": { scope: "comment.block.documentation", name: "Documentation Comments" },
 
-// Translated mappings: helix scope -> tmTheme scope
-const TRANSLATED_SCOPES: Record<string, string> = {
-  // Functions
-  function: "entity.name.function",
-  "function.method": "entity.name.function.method",
-  "function.macro": "entity.name.function.macro",
-  "function.builtin": "support.function",
-  constructor: "entity.name.function.constructor",
-
-  // Types
-  type: "entity.name.type",
-  "type.builtin": "support.type",
-  "type.enum.variant": "entity.name.type.enum",
-
-  // Tags/Attributes
-  tag: "entity.name.tag",
-  attribute: "entity.other.attribute-name",
-
-  // Namespaces/Modules
-  namespace: "entity.name.namespace",
-  module: "entity.name.module",
-  label: "entity.name.label",
-
-  // Variables
-  "variable.builtin": "variable.language",
-  "variable.other.member": "variable.other.member",
-  "variable.function": "variable.function",
+  // Strings
+  "string": { scope: "string", name: "Strings" },
+  "string.regexp": { scope: "string.regexp", name: "Regular Expressions" },
+  "string.special": { scope: "string.other", name: "Special Strings" },
+  "string.special.symbol": { scope: "constant.other.symbol", name: "Symbols" },
+  "string.special.url": { scope: "string.other.link", name: "URLs" },
 
   // Constants
-  "constant.builtin": "constant.language",
-  "string.special.symbol": "constant.other.symbol",
-  "string.special": "string.other",
-  "string.special.url": "string.other.link",
+  "constant": { scope: "constant", name: "Constants" },
+  "constant.numeric": { scope: "constant.numeric", name: "Numbers" },
+  "constant.character": { scope: "constant.character", name: "Characters" },
+  "constant.character.escape": { scope: "constant.character.escape", name: "Escape Characters" },
+  "constant.builtin": { scope: "constant.language", name: "Built-in Constants" },
+
+  // Variables
+  "variable": { scope: "variable", name: "Variables" },
+  "variable.parameter": { scope: "variable.parameter", name: "Parameters" },
+  "variable.builtin": { scope: "variable.language", name: "Built-in Variables" },
+  "variable.other.member": { scope: "variable.other.member", name: "Member Variables" },
+  "variable.function": { scope: "variable.function", name: "Function References" },
 
   // Keywords
-  "keyword.function": "storage.type.function",
-  "keyword.directive": "keyword.other.directive",
-  "keyword.control.repeat": "keyword.control.loop",
-  "keyword.control.import": "keyword.control.import",
-  "keyword.control.return": "keyword.control.return",
-  "keyword.control.exception": "keyword.control.exception",
-  special: "keyword.other",
+  "keyword": { scope: "keyword", name: "Keywords" },
+  "keyword.control": { scope: "keyword.control", name: "Control Keywords" },
+  "keyword.control.repeat": { scope: "keyword.control.loop", name: "Loop Keywords" },
+  "keyword.control.import": { scope: "keyword.control.import", name: "Import Keywords" },
+  "keyword.control.return": { scope: "keyword.control.return", name: "Return Keywords" },
+  "keyword.control.exception": { scope: "keyword.control.exception", name: "Exception Keywords" },
+  "keyword.operator": { scope: "keyword.operator", name: "Operator Keywords" },
+  "keyword.function": { scope: "storage.type.function", name: "Function Keywords" },
+  "keyword.directive": { scope: "keyword.other.directive", name: "Directives" },
 
-  // Punctuation
-  "punctuation.delimiter": "punctuation.separator",
-  "punctuation.bracket": "punctuation.bracket",
+  // Operators & Punctuation
+  "operator": { scope: "operator", name: "Operators" },
+  "punctuation": { scope: "punctuation", name: "Punctuation" },
+  "punctuation.delimiter": { scope: "punctuation.separator", name: "Separators" },
+  "punctuation.bracket": { scope: "punctuation.bracket", name: "Brackets" },
+  "special": { scope: "keyword.other", name: "Special Keywords" },
 
-  // Markup extensions
-  "markup.heading.1": "markup.heading.1",
-  "markup.heading.2": "markup.heading.2",
-  "markup.heading.3": "markup.heading.3",
-  "markup.heading.4": "markup.heading.4",
-  "markup.heading.5": "markup.heading.5",
-  "markup.heading.6": "markup.heading.6",
-  "markup.link": "markup.link",
-  "markup.link.url": "markup.link.url",
-  "markup.list.numbered": "markup.list.numbered",
-  "markup.list.unnumbered": "markup.list.unnumbered",
-  "markup.raw.inline": "markup.raw.inline",
-  "markup.raw.block": "markup.raw.block",
+  // Functions
+  "function": { scope: "entity.name.function", name: "Functions" },
+  "function.method": { scope: "entity.name.function.method", name: "Methods" },
+  "function.macro": { scope: "entity.name.function.macro", name: "Macros" },
+  "function.builtin": { scope: "support.function", name: "Built-in Functions" },
+  "constructor": { scope: "entity.name.function.constructor", name: "Constructors" },
+
+  // Types
+  "type": { scope: "entity.name.type", name: "Types" },
+  "type.builtin": { scope: "support.type", name: "Built-in Types" },
+  "type.enum.variant": { scope: "entity.name.type.enum", name: "Enum Variants" },
+
+  // Tags/Attributes/Namespaces
+  "tag": { scope: "entity.name.tag", name: "Tags" },
+  "attribute": { scope: "entity.other.attribute-name", name: "Attributes" },
+  "namespace": { scope: "entity.name.namespace", name: "Namespaces" },
+  "module": { scope: "entity.name.module", name: "Modules" },
+  "label": { scope: "entity.name.label", name: "Labels" },
+
+  // Markup
+  "markup.heading": { scope: "markup.heading", name: "Headings" },
+  "markup.heading.1": { scope: "markup.heading.1", name: "Heading 1" },
+  "markup.heading.2": { scope: "markup.heading.2", name: "Heading 2" },
+  "markup.heading.3": { scope: "markup.heading.3", name: "Heading 3" },
+  "markup.heading.4": { scope: "markup.heading.4", name: "Heading 4" },
+  "markup.heading.5": { scope: "markup.heading.5", name: "Heading 5" },
+  "markup.heading.6": { scope: "markup.heading.6", name: "Heading 6" },
+  "markup.bold": { scope: "markup.bold", name: "Bold" },
+  "markup.italic": { scope: "markup.italic", name: "Italic" },
+  "markup.strikethrough": { scope: "markup.strikethrough", name: "Strikethrough" },
+  "markup.quote": { scope: "markup.quote", name: "Quotes" },
+  "markup.raw": { scope: "markup.raw", name: "Raw/Code" },
+  "markup.raw.inline": { scope: "markup.raw.inline", name: "Inline Code" },
+  "markup.raw.block": { scope: "markup.raw.block", name: "Code Blocks" },
+  "markup.list": { scope: "markup.list", name: "Lists" },
+  "markup.list.numbered": { scope: "markup.list.numbered", name: "Numbered Lists" },
+  "markup.list.unnumbered": { scope: "markup.list.unnumbered", name: "Bullet Lists" },
+  "markup.link": { scope: "markup.link", name: "Links" },
+  "markup.link.url": { scope: "markup.link.url", name: "Link URLs" },
 
   // Diff
-  "diff.plus": "markup.inserted",
-  "diff.minus": "markup.deleted",
-  "diff.delta": "markup.changed",
+  "diff.plus": { scope: "markup.inserted", name: "Inserted (Diff)" },
+  "diff.minus": { scope: "markup.deleted", name: "Deleted (Diff)" },
+  "diff.delta": { scope: "markup.changed", name: "Changed (Diff)" },
 };
 
 // Helix modifier -> tmTheme fontStyle
@@ -146,78 +144,6 @@ const MODIFIER_MAP: Record<string, string> = {
   italic: "italic",
   underline: "underline",
   crossed_out: "strikethrough",
-};
-
-// Human-readable names for scopes
-const SCOPE_NAMES: Record<string, string> = {
-  comment: "Comments",
-  "comment.line": "Line Comments",
-  "comment.block": "Block Comments",
-  "comment.block.documentation": "Documentation Comments",
-  string: "Strings",
-  "string.regexp": "Regular Expressions",
-  constant: "Constants",
-  "constant.numeric": "Numbers",
-  "constant.character": "Characters",
-  "constant.character.escape": "Escape Characters",
-  "constant.language": "Built-in Constants",
-  "constant.other.symbol": "Symbols",
-  variable: "Variables",
-  "variable.parameter": "Parameters",
-  "variable.language": "Built-in Variables",
-  "variable.other.member": "Member Variables",
-  "variable.function": "Function References",
-  keyword: "Keywords",
-  "keyword.control": "Control Keywords",
-  "keyword.control.loop": "Loop Keywords",
-  "keyword.control.import": "Import Keywords",
-  "keyword.control.return": "Return Keywords",
-  "keyword.control.exception": "Exception Keywords",
-  "keyword.operator": "Operator Keywords",
-  "keyword.other": "Special Keywords",
-  "keyword.other.directive": "Directives",
-  operator: "Operators",
-  punctuation: "Punctuation",
-  "punctuation.separator": "Separators",
-  "punctuation.bracket": "Brackets",
-  "entity.name.function": "Functions",
-  "entity.name.function.method": "Methods",
-  "entity.name.function.macro": "Macros",
-  "entity.name.function.constructor": "Constructors",
-  "support.function": "Built-in Functions",
-  "entity.name.type": "Types",
-  "support.type": "Built-in Types",
-  "entity.name.type.enum": "Enum Variants",
-  "entity.name.tag": "Tags",
-  "entity.other.attribute-name": "Attributes",
-  "entity.name.namespace": "Namespaces",
-  "entity.name.module": "Modules",
-  "entity.name.label": "Labels",
-  "storage.type.function": "Function Keywords",
-  "string.other": "Special Strings",
-  "string.other.link": "URLs",
-  "markup.heading": "Headings",
-  "markup.heading.1": "Heading 1",
-  "markup.heading.2": "Heading 2",
-  "markup.heading.3": "Heading 3",
-  "markup.heading.4": "Heading 4",
-  "markup.heading.5": "Heading 5",
-  "markup.heading.6": "Heading 6",
-  "markup.bold": "Bold",
-  "markup.italic": "Italic",
-  "markup.strikethrough": "Strikethrough",
-  "markup.quote": "Quotes",
-  "markup.raw": "Raw/Code",
-  "markup.raw.inline": "Inline Code",
-  "markup.raw.block": "Code Blocks",
-  "markup.list": "Lists",
-  "markup.list.numbered": "Numbered Lists",
-  "markup.list.unnumbered": "Bullet Lists",
-  "markup.link": "Links",
-  "markup.link.url": "Link URLs",
-  "markup.inserted": "Inserted (Diff)",
-  "markup.deleted": "Deleted (Diff)",
-  "markup.changed": "Changed (Diff)",
 };
 
 // -----------------------------------------------------------------------------
@@ -349,37 +275,27 @@ function generateTokenRules(
   const rules: TokenRule[] = [];
   const processedScopes = new Set<string>();
 
-  // Helper to add a rule
-  const addRule = (helixScope: string, tmScope: string) => {
-    if (processedScopes.has(tmScope)) return;
+  for (const [helixScope, { scope: tmScope, name }] of Object.entries(SCOPE_MAP)) {
+    if (processedScopes.has(tmScope)) continue;
 
     const value = theme[helixScope];
-    if (!value || typeof value === "object" && "palette" in value) return;
+    if (!value || (typeof value === "object" && "palette" in value)) continue;
 
     const style = extractStyle(value as HelixValue, palette);
-    if (!style.fg && !style.bg && !style.fontStyle) return;
+    if (!style.fg && !style.bg && !style.fontStyle) continue;
 
     processedScopes.add(tmScope);
     rules.push({
-      name: SCOPE_NAMES[tmScope] || tmScope,
+      name,
       scope: tmScope,
       foreground: style.fg,
       background: style.bg,
       fontStyle: style.fontStyle,
     });
-  };
-
-  // Process direct mappings
-  for (const scope of DIRECT_SCOPES) {
-    addRule(scope, scope);
   }
 
-  // Process translated mappings
-  for (const [helixScope, tmScope] of Object.entries(TRANSLATED_SCOPES)) {
-    addRule(helixScope, tmScope);
-  }
-
-  return rules;
+  // Sort by scope for stable output
+  return rules.sort((a, b) => a.scope.localeCompare(b.scope));
 }
 
 // -----------------------------------------------------------------------------
