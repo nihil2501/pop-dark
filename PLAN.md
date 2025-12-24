@@ -1,49 +1,36 @@
 # Goal
-I have a `helix` theme that I really like called `pop-dark`. There are a couple of other terminal contexts to which I'd like to propagate this theming.
+Propagate my `pop-dark` theme across terminal tooling contexts.
 
-## Source
-| Tool | Format | Semantics | Location |
-|------|--------|-----------|----------|
-| helix | TOML (palette + scopes) | editor UI + treesitter scopes | `vendor/tools/helix/runtime/themes/pop-dark.toml` |
+## Lineage
+```
+VSCodePopTheme (upstream) → helix pop-dark (current) → ghostty, bat, opencode
+```
 
-**Upstream**: Derived from [VSCodePopTheme](https://github.com/ArtisanByteCrafter/VSCodePopTheme) by Nathaniel Webb. This VSCode theme should be pulled in as an artifact since converters expect VSCode JSON input.
-
-## Targets
-| Tool | Format | Semantics | Mapping Strategy |
-|------|--------|-----------|------------------|
-| ghostty | TOML | terminal UI (16 ANSI + extras) | direct palette extraction |
-| bat | tmTheme (XML plist) | TextMate scopes | VSCode JSON → tmTheme via converter |
-| opencode | custom JSON | 9 syntax tokens + UI colors | direct mapping (simple token set) |
-
-### opencode theme format
-- Schema: `https://opencode.ai/theme.json`
-- Syntax tokens: `syntaxComment`, `syntaxKeyword`, `syntaxFunction`, `syntaxVariable`, `syntaxString`, `syntaxNumber`, `syntaxType`, `syntaxOperator`, `syntaxPunctuation`
-- UI: `primary`, `background`, `text`, `border`, etc.
-- Essentially a distillation compatible with VSCode/tmTheme semantics
+## Formats
+| Context | Format | Notes |
+|---------|--------|-------|
+| VSCodePopTheme | VSCode JSON | upstream source; converters expect this |
+| helix | TOML | already done |
+| ghostty | TOML | ANSI-16 + UI; semantic mapping TBD (e.g. bright vs dark) |
+| bat | tmTheme (XML) | TextMate scopes |
+| opencode | tmTheme | uses tmTheme under the hood |
 
 ## Converters
-All assume **VSCode JSON as input** — none directly consume helix TOML.
+All consume VSCode JSON. Compare implementations before choosing.
 
-| Converter | In → Out | Useful? |
-|-----------|----------|---------|
-| vscode_theme_converter | VSCode JSON → tmTheme + ANSI map + Ghostty | **YES** — best fit, has Ghostty output |
-| json2tm | VSCode JSON → tmTheme | yes, simpler alternative for bat |
-| theme-converter | VSCode/Neovim → tmTheme (lib only) | maybe, needs wrapper |
-| code-theme-converter | VSCode repo → Sublime/JetBrains | no |
+| Converter | Output | Notes |
+|-----------|--------|-------|
+| vscode_theme_converter | tmTheme + Ghostty + ANSI map | Python; most complete |
+| json2tm | tmTheme | Rust; minimal |
+| theme-converter | tmTheme | Rust; lib only |
 
 ## Strategy
-1. Pull VSCodePopTheme as artifact (the true upstream source)
-2. Use `vscode_theme_converter` for: VSCode → tmTheme (bat) + Ghostty
-3. Manual mapping for opencode (only 9 tokens)
-4. Helix theme already exists — no work needed
+1. Pull VSCodePopTheme as source artifact
+2. Evaluate converters → produce tmTheme (bat, opencode) + Ghostty
+3. Ghostty may need manual tuning (bright/dark semantics)
 
-## Next Steps
-1. [ ] Pull VSCodePopTheme repo/JSON
-2. [ ] Test vscode_theme_converter on it
-3. [ ] Map opencode's 9 tokens to VSCode equivalents
-
-# Notes from the user
-- If opencode's situation is such that it's really just tmTheme configuration under the hood, then please make that adjustment now
-- We'll eventually want to compare these converters' implementations to judge which is best
-- We should keep this distilled to the highest level contour of the project and then figure out other documents that pertain to the source and each target individually to organize later work
-- Hold in mind that we might need to discover the right semantics we want for ghostty, e.g. bright colors maybe shouldn't actually be the darker ones
+## Documents (TBD)
+- `docs/source.md` — VSCodePopTheme + helix lineage
+- `docs/ghostty.md` — ANSI mapping decisions
+- `docs/bat.md` — tmTheme generation
+- `docs/opencode.md` — tmTheme integration
