@@ -7,138 +7,140 @@ Custom JSON format for [opencode](https://github.com/sst/opencode) TUI.
 
 ## Format
 
-opencode uses a custom JSON theme format with 53 color fields organized into categories. Themes are placed in `.opencode/themes/` or `~/.config/opencode/themes/`.
+opencode uses a custom JSON theme format with a `defs` palette and 52 theme fields. Since pop-dark is dark-only, all theme values use the palette directly (no dark/light variants needed).
 
-Reference: `vendor/tuis/opencode/packages/opencode/src/cli/cmd/tui/context/theme.tsx`
+Reference: `vendor/tuis/opencode/packages/opencode/src/cli/cmd/tui/context/theme/opencode.json`
 
 ## Theme Structure
 
 ```json
 {
   "$schema": "https://opencode.ai/theme.json",
-  "defs": { /* palette definitions */ },
-  "theme": { /* color assignments */ }
+  "defs": {
+    "bg": "#3E3B39",
+    "text": "#DEDEDE",
+    ...
+  },
+  "theme": {
+    "background": "bg",
+    "text": "text",
+    ...
+  }
 }
 ```
 
-## Color Categories (53 fields)
+## Helix → opencode Mapping
 
 ### UI Semantic (7)
 
-| Field | Helix Scope | Notes |
-|-------|-------------|-------|
-| `primary` | — | Primary accent (use blueH) |
-| `secondary` | — | Secondary accent (use redL) |
-| `accent` | — | Accent color (use blueH) |
-| `error` | `error` | Error color |
-| `warning` | `warning` | Warning color |
-| `success` | — | Success color (use greenN) |
-| `info` | `info` | Info color |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `primary` | `ui.selection` bg | blueH |
+| `secondary` | — | redL |
+| `accent` | `ui.cursor` bg | orangeY |
+| `error` | `error` fg | redE |
+| `warning` | `warning` fg | orangeW |
+| `success` | — | greenN |
+| `info` | `info` fg | brownD |
 
 ### Text (3)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `text` | `ui.text` fg |
-| `textMuted` | `comment` fg |
-| `selectedListItemText` | `ui.background` bg |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `text` | `ui.text` fg | greyT |
+| `textMuted` | `comment` fg | greyC |
+| `selectedListItemText` | `ui.background` bg | brownN |
 
 ### Background (4)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `background` | `ui.background` bg |
-| `backgroundPanel` | `ui.window` bg |
-| `backgroundElement` | `ui.cursorline` bg |
-| `backgroundMenu` | `ui.help` bg |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `background` | `ui.background` bg | brownN |
+| `backgroundPanel` | `ui.window` bg | brownH |
+| `backgroundElement` | `ui.cursorline` bg | brownH |
+| `backgroundMenu` | `ui.help` bg | brownD |
 
 ### Border (3)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `border` | `ui.window` fg |
-| `borderActive` | `ui.selection` bg |
-| `borderSubtle` | `ui.virtual` fg |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `border` | `ui.window` fg | brownD |
+| `borderActive` | `ui.selection` bg | blueH |
+| `borderSubtle` | `ui.virtual` fg | brownV |
 
 ### Diff (12)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `diffAdded` | `diff.plus` fg |
-| `diffRemoved` | `diff.minus` fg |
-| `diffContext` | `diff.delta` fg |
-| `diffHunkHeader` | `diff.delta` fg |
-| `diffHighlightAdded` | `diff.plus` fg |
-| `diffHighlightRemoved` | `diff.minus` fg |
-| `diffAddedBg` | `diff.plus.gutter` bg |
-| `diffRemovedBg` | `diff.minus.gutter` bg |
-| `diffContextBg` | `ui.background` bg |
-| `diffLineNumber` | `ui.linenr` fg |
-| `diffAddedLineNumberBg` | `diff.plus.gutter` bg |
-| `diffRemovedLineNumberBg` | `diff.minus.gutter` bg |
+| opencode Field | Helix Source | Value |
+|----------------|--------------|-------|
+| `diffAdded` | `diff.plus` fg | #4dd44d |
+| `diffRemoved` | `diff.minus` fg | #dd4d4d |
+| `diffContext` | `diff.delta` fg | #4d4ddd |
+| `diffHunkHeader` | `diff.delta` fg | #4d4ddd |
+| `diffHighlightAdded` | `diff.plus` fg | #4dd44d |
+| `diffHighlightRemoved` | `diff.minus` fg | #dd4d4d |
+| `diffAddedBg` | — | brownH (or darker) |
+| `diffRemovedBg` | — | brownH (or darker) |
+| `diffContextBg` | `ui.background` bg | brownN |
+| `diffLineNumber` | `ui.linenr` fg | greyL |
+| `diffAddedLineNumberBg` | — | brownH |
+| `diffRemovedLineNumberBg` | — | brownH |
 
 ### Markdown (14)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `markdownText` | `ui.text` fg |
-| `markdownHeading` | `markup.heading` fg |
-| `markdownLink` | `markup.link` fg |
-| `markdownLinkText` | `markup.link.text` fg |
-| `markdownCode` | `markup.raw` fg |
-| `markdownBlockQuote` | `markup.quote` fg |
-| `markdownEmph` | `markup.italic` fg |
-| `markdownStrong` | `markup.bold` fg |
-| `markdownHorizontalRule` | `ui.virtual` fg |
-| `markdownListItem` | `markup.list` fg |
-| `markdownListEnumeration` | `markup.list` fg |
-| `markdownImage` | `markup.link` fg |
-| `markdownImageText` | `markup.link.text` fg |
-| `markdownCodeBlock` | `markup.raw.block` fg |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `markdownText` | `ui.text` fg | greyT |
+| `markdownHeading` | `markup.heading` fg | greenN |
+| `markdownLink` | `markup.link` fg | blueD |
+| `markdownLinkText` | `markup.link.text` fg | blueN |
+| `markdownCode` | `markup.raw.inline` fg | blueL |
+| `markdownBlockQuote` | `markup.quote` fg | blueL |
+| `markdownEmph` | — (italic modifier) | greyT |
+| `markdownStrong` | — (bold modifier) | greyT |
+| `markdownHorizontalRule` | `ui.virtual` fg | brownV |
+| `markdownListItem` | `markup.list` fg | greenN |
+| `markdownListEnumeration` | `markup.list` fg | greenN |
+| `markdownImage` | `markup.link` fg | blueD |
+| `markdownImageText` | `markup.link.text` fg | blueN |
+| `markdownCodeBlock` | `markup.raw.block` fg | orangeH |
 
 ### Syntax (9)
 
-| Field | Helix Scope |
-|-------|-------------|
-| `syntaxComment` | `comment` fg |
-| `syntaxKeyword` | `keyword` fg |
-| `syntaxFunction` | `function` fg |
-| `syntaxVariable` | `variable` fg |
-| `syntaxString` | `string` fg |
-| `syntaxNumber` | `constant.numeric` fg |
-| `syntaxType` | `type` fg |
-| `syntaxOperator` | `operator` fg |
-| `syntaxPunctuation` | `punctuation` fg |
+| opencode Field | Helix Source | Palette |
+|----------------|--------------|---------|
+| `syntaxComment` | `comment` fg | greyC |
+| `syntaxKeyword` | `keyword` fg | blueH |
+| `syntaxFunction` | `function` fg | blueH |
+| `syntaxVariable` | `variable` fg | greyT |
+| `syntaxString` | `string` fg | greenN |
+| `syntaxNumber` | `constant.numeric` fg | redH |
+| `syntaxType` | `type` fg | redH |
+| `syntaxOperator` | `operator` fg | orangeY |
+| `syntaxPunctuation` | `punctuation` fg | blueL |
 
-## Syntax Highlighting
+## Generator Implementation
 
-opencode uses tree-sitter with nvim-treesitter highlight queries. The 9 `syntax*` colors are mapped to tree-sitter capture names via `getSyntaxRules()` in theme.tsx.
+The generator should:
 
-Key mappings from tree-sitter captures to syntax colors:
-
-| Tree-sitter Capture | Syntax Color |
-|---------------------|--------------|
-| `comment`, `comment.documentation` | `syntaxComment` |
-| `string`, `symbol`, `character.special` | `syntaxString` |
-| `number`, `boolean`, `constant` | `syntaxNumber` |
-| `keyword`, `keyword.*` | `syntaxKeyword` |
-| `function`, `variable.member`, `constructor` | `syntaxFunction` |
-| `variable`, `variable.parameter`, `property`, `parameter` | `syntaxVariable` |
-| `type`, `module`, `class` | `syntaxType` |
-| `operator`, `keyword.operator`, `punctuation.delimiter` | `syntaxOperator` |
-| `punctuation`, `punctuation.bracket` | `syntaxPunctuation` |
+1. Parse `themes/helix.toml` using `Bun.TOML.parse()`
+2. Extract palette colors
+3. Build the `defs` object from palette
+4. Map helix scopes to opencode fields per the tables above
+5. Output JSON to `themes/opencode.json`
 
 ## Installation
 
 ```bash
 # Generate theme
-bun run scripts/generate-opencode.ts
+bun run generate:opencode
 
-# Install (option 1: global)
+# Install (global)
+mkdir -p ~/.config/opencode/themes
 cp themes/opencode.json ~/.config/opencode/themes/pop-dark.json
 
-# Install (option 2: project-local)
+# Install (project-local)
+mkdir -p .opencode/themes
 cp themes/opencode.json .opencode/themes/pop-dark.json
 
-# Use (in opencode config or via /theme command)
+# Use via /theme command or config
 ```
