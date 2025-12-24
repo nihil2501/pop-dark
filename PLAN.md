@@ -1,5 +1,5 @@
 # Goal
-Propagate my `pop-dark` theme across terminal tooling contexts.
+Propagate my `pop-dark` theme across TUI contexts.
 
 ## Lineage
 ```
@@ -7,8 +7,8 @@ VSCodePopTheme (upstream) → helix pop-dark (current) → ghostty, bat, opencod
 ```
 
 ## Formats
-| Context | Format | Notes |
-|---------|--------|-------|
+| TUI | Format | Notes |
+|-----|--------|-------|
 | VSCodePopTheme | VSCode JSON | upstream source; converters expect this |
 | helix | TOML | already done |
 | ghostty | TOML | ANSI-16 + UI; semantic mapping TBD (e.g. bright vs dark) |
@@ -36,8 +36,8 @@ Note: `root-loops` is a **color scheme generator** with export capabilities, not
 
 ## Documents
 - `docs/converters.md` — converter comparison and selection
-- `docs/vscode.md` — VSCodePopTheme upstream source
-- `docs/helix.md` — helix theme review
-- `docs/ghostty.md` — ANSI mapping decisions
-- `docs/bat.md` — tmTheme generation
-- `docs/opencode.md` — tmTheme integration
+- `docs/tuis/vscode.md` — VSCodePopTheme upstream source
+- `docs/tuis/helix.md` — helix theme review
+- `docs/tuis/ghostty.md` — ANSI mapping decisions
+- `docs/tuis/bat.md` — tmTheme generation
+- `docs/tuis/opencode.md` — tmTheme integration
