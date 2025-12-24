@@ -24,12 +24,21 @@ export function normalizeHelixValue(value: HelixValue | undefined): HelixStyle {
 
 export function parseHelixTheme(tomlContent: string): HelixTheme {
   const parsed = Bun.TOML.parse(tomlContent) as any;
-
-  // Extract palette and move everything else to scopes
   const { palette = {}, ...scopes } = parsed;
+  return { palette, scopes };
+}
 
-  return {
-    palette,
-    scopes,
-  };
+export async function loadHelixTheme(path = "themes/helix.toml"): Promise<HelixTheme> {
+  return parseHelixTheme(await Bun.file(path).text());
+}
+
+export type Generate = (theme: HelixTheme) => string;
+
+export async function run(
+  outputPath: string,
+  generate: (theme: HelixTheme) => string
+) {
+  const theme = await loadHelixTheme("themes/helix.toml");
+  const content = generate(theme);
+  await Bun.write(outputPath, content);
 }

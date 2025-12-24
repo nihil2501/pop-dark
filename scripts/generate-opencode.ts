@@ -1,4 +1,4 @@
-import { type HelixProp, type HelixValue, normalizeHelixValue, parseHelixTheme } from "./lib/helix";
+import { type HelixProp, type HelixTheme, type HelixValue, normalizeHelixValue, run } from "./lib/helix";
 import { THEME_MAP } from "./lib/opencode";
 
 const NONE = "none" as const;
@@ -8,18 +8,10 @@ function resolveColor(
   helix?: { scope: string; prop: HelixProp }
 ): string {
   if (!helix) return NONE;
-  const value = normalizeHelixValue(scopes[helix.scope]);
-  return value[helix.prop] || NONE;
+  return normalizeHelixValue(scopes[helix.scope])[helix.prop] || NONE;
 }
 
-async function main() {
-  const inputPath = "themes/helix.toml";
-  const outputPath = "themes/opencode.json";
-
-  const { scopes, palette } = parseHelixTheme(
-    await Bun.file(inputPath).text()
-  );
-
+run("themes/opencode.json", ({ scopes, palette }: HelixTheme) => {
   const defs = Object.fromEntries(Object.entries(palette).sort(
     ([a], [b]) => a.localeCompare(b)
   ));
@@ -29,7 +21,5 @@ async function main() {
   }));
 
   const json = { $schema: "https://opencode.ai/theme.json", defs, theme };
-  await Bun.write(outputPath, JSON.stringify(json, null, 2) + "\n");
-}
-
-main().catch(console.error);
+  return JSON.stringify(json, null, 2) + "\n";
+});

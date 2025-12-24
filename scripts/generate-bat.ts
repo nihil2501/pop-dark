@@ -1,11 +1,11 @@
-import { FG, BG, type HelixValue, normalizeHelixValue, parseHelixTheme } from "./lib/helix";
+import { BG, FG, type HelixTheme, type HelixValue, normalizeHelixValue, run } from "./lib/helix";
 import { MODIFIER_MAP, THEME_MAP } from "./lib/bat";
 
 interface TMThemeStyle {
   foreground?: string;
   background?: string;
   fontStyle?: string;
-};
+}
 
 interface TMThemeRule {
   name: string;
@@ -25,7 +25,6 @@ function resolveColor(
   if (!value) return;
   if (value.startsWith("#")) return value.toUpperCase();
   if (palette[value]) return palette[value].toUpperCase();
-
   console.warn(`Unknown color reference: ${value}`);
   return undefined;
 }
@@ -37,7 +36,6 @@ function extractStyle(
 ): TMThemeStyle {
   const value = normalizeHelixValue(scopes[scope]);
   const fontStyle = value.modifiers?.map((m) => MODIFIER_MAP[m]).filter(Boolean).join(" ");
-
   return {
     foreground: resolveColor(value[FG], palette),
     background: resolveColor(value[BG], palette),
@@ -136,25 +134,15 @@ function generateTmTheme(
   return lines.join("\n");
 }
 
-async function main() {
-  const inputPath = "themes/helix.toml";
-  const outputPath = "themes/bat.tmTheme";
-
-  const { scopes, palette } = parseHelixTheme(
-    await Bun.file(inputPath).text()
-  );
-
+run("themes/bat.tmTheme", ({ scopes, palette }: HelixTheme) => {
   const globalSettings = {
     background: extractStyle(scopes, "ui.background", palette).background,
     foreground: extractStyle(scopes, "ui.text", palette).foreground,
   };
 
-  const tmThemeRules = THEME_MAP.flatMap(({ tmTheme: scope, helix, name }) => {
+  const tmThemeRules = THEME_MAP.map(({ tmTheme: scope, helix, name }) => {
     return { name, scope, style: extractStyle(scopes, helix, palette) };
   });
 
-  const xml = generateTmTheme(globalSettings, tmThemeRules);
-  await Bun.write(outputPath, xml);
-}
-
-main().catch(console.error);
+  return generateTmTheme(globalSettings, tmThemeRules);
+});
