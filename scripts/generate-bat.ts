@@ -198,14 +198,14 @@ function extractGlobalSettings(
   const settings: GlobalSettings = {};
 
   // ui.background -> background
-  const uiBg = theme["ui.background"];
+  const uiBg = theme.scopes["ui.background"];
   if (uiBg) {
     const style = extractStyle(uiBg, palette);
     if (style.bg) settings.background = style.bg;
   }
 
   // ui.text -> foreground
-  const uiText = theme["ui.text"];
+  const uiText = theme.scopes["ui.text"];
   if (uiText) {
     const style = extractStyle(uiText, palette);
     if (style.fg) settings.foreground = style.fg;
@@ -228,10 +228,10 @@ function generateTokenRules(
   for (const [helixScope, { scope: tmScope, name }] of Object.entries(SCOPE_MAP)) {
     if (processedScopes.has(tmScope)) continue;
 
-    const value = theme[helixScope];
-    if (!value || (typeof value === "object" && "palette" in value)) continue;
+    const value = theme.scopes[helixScope];
+    if (!value) continue;
 
-    const style = extractStyle(value as HelixValue, palette);
+    const style = extractStyle(value, palette);
     if (!style.fg && !style.bg && !style.fontStyle) continue;
 
     processedScopes.add(tmScope);

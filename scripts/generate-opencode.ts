@@ -100,11 +100,8 @@ function getHelixValue(
   scope: string,
   prop: "fg" | "bg"
 ): string | undefined {
-  const value = theme[scope];
+  const value = theme.scopes[scope];
   if (!value) return undefined;
-
-  // Skip palette object
-  if (typeof value === "object" && "palette" in value) return undefined;
 
   // Simple string value (color reference for fg)
   if (typeof value === "string") {
@@ -141,23 +138,24 @@ function buildTheme(
   );
 
   for (const field of sortedFields) {
-    const mapping = THEME_MAP[field] as ThemeMapping | null | undefined;
+    const mapping = THEME_MAP[field];
 
-    if (mapping === null || mapping === undefined) {
+    if (!mapping) {
       theme[field] = "none";
-    } else {
-      const value = getHelixValue(helixTheme, mapping.scope, mapping.prop);
-      if (value) {
-        // Validate palette reference
-        if (!value.startsWith("#") && !palette[value]) {
-          console.warn(
-            `Warning: ${field} references unknown palette color: ${value}`
-          );
-        }
-        theme[field] = value;
-      } else {
-        theme[field] = "none";
+      continue;
+    }
+
+    const value = getHelixValue(helixTheme, mapping.scope, mapping.prop);
+    if (value) {
+      // Validate palette reference
+      if (!value.startsWith("#") && !palette[value]) {
+        console.warn(
+          `Warning: ${field} references unknown palette color: ${value}`
+        );
       }
+      theme[field] = value;
+    } else {
+      theme[field] = "none";
     }
   }
 
