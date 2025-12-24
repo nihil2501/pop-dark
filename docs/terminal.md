@@ -1,78 +1,35 @@
-# Terminal Color Mapping
+# Terminal Theme
 
-This document defines the semantic mapping from ANSI-16 terminal colors to Helix theme concepts.
+Color assignments for terminal emulators (Ghostty, iTerm2, etc.).
 
 ## Terminal UI Colors
 
-These are non-ANSI colors used by terminal emulators for UI elements.
-
-| Terminal Concept | Semantic Meaning | Helix Scope |
-|------------------|------------------|-------------|
-| `background` | Main terminal background | `ui.background` bg |
-| `foreground` | Default text color | `ui.text` fg |
-| `cursor` | Cursor fill color | `ui.cursor` bg |
-| `cursor-text` | Text under cursor | `ui.cursor` fg |
-| `selection-background` | Selected text background | `ui.selection` bg |
-| `selection-foreground` | Selected text foreground | `ui.selection` fg |
+| Terminal Field | Helix Scope | Palette | Hex |
+|----------------|-------------|---------|-----|
+| `background` | `ui.background` bg | brownN | #3E3B39 |
+| `foreground` | `ui.text` fg | greyT | #DEDEDE |
+| `cursor-color` | `ui.cursor.primary` bg | orangeN | #FDAF1F |
+| `cursor-text` | `ui.cursor.primary` fg | black | #000000 |
+| `selection-background` | `ui.selection.primary` bg | blueD | #4AAAD6 |
+| `selection-foreground` | `ui.selection.primary` fg | white | #FFFFFF |
 
 ## ANSI-16 Palette
 
-The ANSI-16 palette provides 16 color slots with conventional semantic meanings.
-Terminal applications use these colors for specific purposes.
-
-### Normal Colors (0-7)
-
-| Slot | ANSI Name | Semantic Meaning | Helix Scope |
-|------|-----------|------------------|-------------|
-| 0 | black | Background, hidden text | `ui.background` bg |
-| 1 | red | Errors, failures, deletions | `error` fg |
-| 2 | green | Success, additions, strings | `string` fg |
-| 3 | yellow | Warnings, caution | `warning` fg |
-| 4 | blue | Info, links, emphasis | `markup.link` fg |
-| 5 | magenta | Special, decorative | `special` fg |
-| 6 | cyan | Keywords, identifiers | `keyword` fg |
-| 7 | white | Normal text | `ui.text` fg |
-
-### Bright Colors (8-15)
-
-| Slot | ANSI Name | Semantic Meaning | Helix Scope |
-|------|-----------|------------------|-------------|
-| 8 | bright black | Comments, muted text | `comment` fg |
-| 9 | bright red | Bright errors, important warnings | `error` fg (alternative) |
-| 10 | bright green | Bright success, highlights | `string` fg (alternative) |
-| 11 | bright yellow | Hints, annotations | `hint` fg |
-| 12 | bright blue | Bright links, active elements | `keyword.control` fg |
-| 13 | bright magenta | Types, special identifiers | `type` fg |
-| 14 | bright cyan | Functions, callables | `function` fg |
-| 15 | bright white | Bright/bold text | `ui.text` fg (bright) |
-
-## Design Notes
-
-### Palette Constraints
-
-The source Helix palette has 31 colors but no purple/magenta. When generating terminal themes:
-
-- Magenta slots (5, 13) must use warm alternatives from the palette
-- The palette is intentionally warm (oranges, salmons, browns)
-- Preserving the warm aesthetic is preferred over introducing derived colors
-
-### Semantic Priority
-
-When mapping, prioritize semantic meaning over exact color matching:
-
-1. Errors must feel "error-like" (red family)
-2. Success/strings must feel "positive" (green family)
-3. Warnings must draw attention (yellow/orange family)
-4. Info/links should be calm but visible (blue family)
-
-### Unmapped Helix Colors
-
-These Helix palette colors don't have direct ANSI-16 equivalents but are preserved in the source:
-
-- Browns (brownV, brownH, brownR, brownD, brownU) — UI backgrounds
-- Additional oranges (orangeH, orangeY, orangeS) — syntax accents
-- Greys (greyH, greyG, greyL, greyC) — UI and muted syntax
-
-## Generator Usage
-
-A generator script will read this mapping and `themes/helix.toml` to produce terminal theme files (e.g., Ghostty, iTerm2, etc.).
+| Slot | Name | Palette | Hex |
+|------|------|---------|-----|
+| 0 | black | black | #000000 |
+| 1 | red | redH | #F78C6C |
+| 2 | green | greenN | #73C48F |
+| 3 | yellow | orangeH | #FFD68A |
+| 4 | blue | blueL | #6DD2FA |
+| 5 | magenta | redL | #F96964 |
+| 6 | cyan | blueH | #8DEEF9 |
+| 7 | white | greyT | #DEDEDE |
+| 8 | bright black | greyC | #A0B4A7 |
+| 9 | bright red | redE | #FF2200 |
+| 10 | bright green | greenS | #6FC475 |
+| 11 | bright yellow | orangeY | #FDC33B |
+| 12 | bright blue | blueD | #4AAAD6 |
+| 13 | bright magenta | redD | #CC3333 |
+| 14 | bright cyan | blueN | #39B7C7 |
+| 15 | bright white | white | #FFFFFF |
