@@ -1,13 +1,14 @@
-# Goal
-Propagate my `pop-dark` theme across TUI contexts.
+# Pop Dark Theme
+
+Propagate the `pop-dark` theme across TUI contexts.
 
 ## Source of Truth
+
 **Helix theme** (`themes/helix.toml`) is the canonical source.
 
-The helix theme was originally derived from VSCodePopTheme but has diverged significantly (keyword/type color inversion, richer palette). We treat helix as authoritative, not VSCode.
-
 ## Palette
-The helix theme defines 26 named colors:
+
+The helix theme defines 31 named colors:
 
 | Category | Colors |
 |----------|--------|
@@ -22,105 +23,47 @@ The helix theme defines 26 named colors:
 
 See `themes/helix.toml` `[palette]` section for hex values.
 
+## Semantic Mappings
+
+Two documents define how helix theme concepts map to target formats:
+
+| Document | Purpose | Target Formats |
+|----------|---------|----------------|
+| `docs/terminal.md` | ANSI-16 + terminal UI colors | Ghostty, iTerm2, etc. |
+| `docs/syntax.md` | tmTheme syntax scopes | bat, opencode, Sublime, etc. |
+
 ## Targets
-| TUI | Format | Strategy |
-|-----|--------|----------|
-| helix | TOML | done (source) |
-| ghostty | TOML | map 26 colors → ANSI-16 + UI colors |
-| bat | tmTheme (XML) | map helix scopes → TextMate scopes |
-| opencode | tmTheme | same as bat |
 
-## Mapping Approach
-
-### Ghostty (ANSI-16 + UI)
-See `docs/tuis/ghostty.md` for complete mapping. Key points:
-- UI colors (background, foreground, cursor, selection) map directly from helix `ui.*` scopes
-- ANSI-16 palette collapses 26 colors to 16 slots
-- No magenta in helix palette — use warm colors (salmon/orange) as stand-ins
-- **Ready to generate** — theme content is drafted in the doc
-
-### bat/opencode (tmTheme)
-Helix uses tree-sitter scopes similar to Sublime/TextMate. Most map 1:1, some need translation.
-
-See `docs/scope-mapping.md` for the canonical mapping.
-
-Full 26-color palette preserved (tmTheme supports arbitrary hex).
-
-A generator script (`scripts/generate-tmtheme.ts`) will parse helix.toml and emit tmTheme.
-Reference implementations in `vendor/converters/` provide tmTheme structure examples.
-
-## Converters (Reference Only)
-Evaluated but **not directly usable** — all expect VSCode JSON input, not helix TOML.
-
-Useful as **reference implementations** for output format structure:
-- `vendor/converters/vscode_theme_converter/` — tmTheme structure (`tm_theme.py`), plist generation
-- `vendor/converters/root-loops/src/lib/export/` — Ghostty (`ghostty.ts`), Helix (`helix.ts`) format examples
-- `vendor/converters/code-theme-converter/src/sublime/` — tmTheme field mappings (`tmTheme.ts`)
-- `vendor/converters/json2tm/src/` — minimal Rust tmTheme generation (`tm.rs`)
-
-See `docs/converters.md` for full analysis.
+| Target | Format | Mapping Doc |
+|--------|--------|-------------|
+| Ghostty | Key-value config | `docs/terminal.md` |
+| bat | tmTheme (XML) | `docs/syntax.md` |
+| opencode | tmTheme (XML) | `docs/syntax.md` |
 
 ## Artifacts
+
 | Path | Description | Status |
 |------|-------------|--------|
-| `themes/helix.toml` | source theme (canonical) | done |
-| `themes/vscode/pop-dark.json` | upstream reference (historical) | done |
-| `themes/ghostty` | ghostty theme | ready to create |
-| `themes/bat.tmTheme` | bat/opencode theme | needs generator |
+| `themes/helix.toml` | Source theme (canonical) | done |
+| `themes/ghostty` | Ghostty terminal theme | pending |
+| `themes/pop-dark.tmTheme` | bat/opencode syntax theme | pending |
 
-## Documents
-- `docs/scope-mapping.md` — **canonical helix → tmTheme scope mapping** (drives tmTheme generation)
-- `docs/converters.md` — converter analysis (reference implementations)
-- `docs/vscode.md` — upstream VSCode theme (historical)
-- `docs/tuis/helix.md` — palette analysis, scope inventory, VSCode deviation notes
-- `docs/tuis/ghostty.md` — **complete mapping with ready-to-use theme**
-- `docs/tuis/bat.md` — tmTheme notes
-- `docs/tuis/opencode.md` — tmTheme integration notes
+## Reference Implementations
 
----
+The `vendor/converters/` directory contains 5 reference implementations for theme conversion. None are directly usable (all expect VSCode JSON input), but they're useful for understanding output formats:
+
+| Converter | Language | Key Files | Useful For |
+|-----------|----------|-----------|------------|
+| `code-theme-converter` | TypeScript | `src/sublime/tmTheme.ts` | tmTheme XML structure, token color mapping |
+| `json2tm` | Rust | `src/tm.rs` | Minimal tmTheme generation, plist serialization |
+| `root-loops` | TypeScript/Svelte | `src/lib/export/ghostty.ts`, `helix.ts` | Ghostty and Helix format examples |
+| `theme-converter` | Rust | `src/parser.rs` | VSCode theme parsing patterns |
+| `vscode_theme_converter` | Python | `src/vscode_theme_converter/tm_theme.py` | plist handling, ANSI color mapping |
 
 ## Next Steps
 
-### Immediate (Ghostty)
-1. [x] Define ANSI-16 + UI mapping — see `docs/tuis/ghostty.md`
-2. [ ] Create `themes/ghostty` — copy from drafted theme in doc
-3. [ ] Validate in ghostty terminal
-
-### tmTheme Generator
-4. [ ] Review `docs/scope-mapping.md` — finalize any scope translations
-5. [ ] Write `scripts/generate-tmtheme.ts`:
-   - Parse `themes/helix.toml` (TOML → palette + scopes)
-   - Apply scope mapping from `docs/scope-mapping.md`
-   - Emit XML plist format (see `vendor/converters/` for examples)
-   - Run with: `bun run scripts/generate-tmtheme.ts`
-6. [ ] Generate `themes/bat.tmTheme`
-
-### Validation
-7. [ ] Test bat theme: `bat --theme-file themes/bat.tmTheme <source-file>`
-8. [ ] Test opencode integration
-9. [ ] Iterate on colors/scopes as needed
-
----
-
-## How to Proceed
-
-**For the next agent session:**
-
-1. **Start with Ghostty** (quick win):
-   - Open `docs/tuis/ghostty.md`
-   - Copy the "Generated Theme" block to `themes/ghostty`
-   - Test it
-
-2. **Then build the tmTheme generator**:
-   - Read `docs/scope-mapping.md` for the helix → tmTheme mapping
-   - Read `themes/helix.toml` to understand the source format
-   - Reference `vendor/converters/code-theme-converter/src/sublime/tmTheme.ts` for tmTheme structure
-   - Write a TypeScript script that:
-     - Parses TOML (use a library like `@iarna/toml` or `smol-toml`)
-     - Resolves palette references to hex values
-     - Maps scopes per `docs/scope-mapping.md`
-     - Outputs XML plist
-
-3. **Validate and iterate**:
-   - Test outputs in actual tools
-   - Adjust mappings as needed
+1. **Review semantic mappings** — Validate `docs/terminal.md` and `docs/syntax.md`
+2. **Create `themes/ghostty`** — Generate from `docs/terminal.md` mapping
+3. **Write `scripts/generate-tmtheme.ts`** — Convert helix.toml → tmTheme using `docs/syntax.md`
+4. **Generate `themes/pop-dark.tmTheme`** — Run generator
+5. **Validate** — Test in ghostty, bat, opencode
