@@ -1,5 +1,5 @@
 import { type HelixValue, parseHelixTheme } from "./lib/helix";
-import { MODIFIER_MAP, SCOPE_MAP } from "./lib/bat";
+import { MODIFIER_MAP, THEME_MAP } from "./lib/bat";
 
 interface TMThemeStyle {
   foreground?: string;
@@ -156,7 +156,7 @@ async function main() {
   };
 
   console.log("Generating tmTheme rules...");
-  const tmThemeRules = SCOPE_MAP.flatMap(({ tmTheme: scope, helix, name }) => {
+  const tmThemeRules = THEME_MAP.flatMap(({ tmTheme: scope, helix, name }) => {
     return { name, scope, style: extractStyle(scopes, helix, palette) };
   });
 

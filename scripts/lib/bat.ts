@@ -1,4 +1,4 @@
-let SCOPE_MAP = [
+let THEME_MAP = [
   { tmTheme: "comment", helix: "comment", name: "Comments" },
   { tmTheme: "comment.block", helix: "comment.block", name: "Block Comments" },
   { tmTheme: "comment.block.documentation", helix: "comment.block.documentation", name: "Documentation Comments" },
@@ -78,17 +78,17 @@ let SCOPE_MAP = [
   { tmTheme: "variable.parameter", helix: "variable.parameter", name: "Parameters" },
 ];
 
-SCOPE_MAP = SCOPE_MAP.sort((a, b) =>
+THEME_MAP = THEME_MAP.sort((a, b) =>
   a.tmTheme.localeCompare(b.tmTheme) ||
   a.helix.localeCompare(b.helix) ||
   a.name.localeCompare(b.name)
 );
 
-SCOPE_MAP = SCOPE_MAP.filter(
+THEME_MAP = THEME_MAP.filter(
   (item, index, arr) => arr.findIndex((x) => x.tmTheme === item.tmTheme) === index
 );
 
-export { SCOPE_MAP };
+export { THEME_MAP };
 
 export const MODIFIER_MAP: Record<string, string> = {
   bold: "bold",
