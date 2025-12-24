@@ -36,7 +36,7 @@ Note: `root-loops` is a **color scheme generator** with export capabilities, not
 
 ## Documents
 - `docs/converters.md` — converter comparison and selection
-- `docs/tuis/vscode.md` — VSCodePopTheme upstream source
+- `docs/vscode.md` — VSCodePopTheme upstream source
 - `docs/tuis/helix.md` — helix theme review
 - `docs/tuis/ghostty.md` — ANSI mapping decisions
 - `docs/tuis/bat.md` — tmTheme generation
