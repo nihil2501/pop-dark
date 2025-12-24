@@ -7,7 +7,7 @@ Custom JSON format for [opencode](https://github.com/sst/opencode) TUI.
 
 ## Format
 
-opencode uses a custom JSON theme format with a `defs` palette and 52 theme fields. Since pop-dark is dark-only, all theme values use the palette directly (no dark/light variants needed).
+opencode uses a custom JSON theme format with a `defs` palette and 51 theme fields. Since pop-dark is dark-only, all theme values use the palette directly (no dark/light variants needed).
 
 Reference: `vendor/tuis/opencode/packages/opencode/src/cli/cmd/tui/context/theme/opencode.json`
 
@@ -51,14 +51,13 @@ Reference: `vendor/tuis/opencode/packages/opencode/src/cli/cmd/tui/context/theme
 | `textMuted` | `comment` fg | greyC |
 | `selectedListItemText` | `ui.background` bg | brownN |
 
-### Background (4)
+### Background (3)
 
 | opencode Field | Helix Source | Palette |
 |----------------|--------------|---------|
 | `background` | `ui.background` bg | brownN |
 | `backgroundPanel` | `ui.window` bg | brownH |
 | `backgroundElement` | `ui.cursorline` bg | brownH |
-| `backgroundMenu` | `ui.help` bg | brownD |
 
 ### Border (3)
 
