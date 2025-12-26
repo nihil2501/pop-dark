@@ -76,7 +76,8 @@ const THEME_MAP = [
     tmTheme: "entity.name.class",
     helix: "constructor",
     name: "Functions",
-  },  {
+  },
+  {
     tmTheme: "entity.other.inherited-class",
     helix: "constructor",
     name: "Functions",
@@ -446,10 +447,16 @@ export function generate(
   const plist = require("plist");
 
   const globalSettings = {
-    settings: {
+    settings: compact({
       background: extractStyle(scopes, "ui.background", palette).background,
       foreground: extractStyle(scopes, "ui.text", palette).foreground,
-    },
+      caret: extractStyle(scopes, "ui.cursor.primary", palette).background,
+      selection: extractStyle(scopes, "ui.selection.primary", palette).background,
+      lineHighlight: extractStyle(scopes, "ui.cursorline.primary", palette).background,
+      invisibles: extractStyle(scopes, "ui.virtual.whitespace", palette).foreground,
+      gutterForeground: extractStyle(scopes, "ui.linenr", palette).foreground,
+      gutter: extractStyle(scopes, "ui.gutter", palette).background,
+    }),
   };
 
   const rules = THEME_MAP.map(({ tmTheme: scope, helix, name }) => {

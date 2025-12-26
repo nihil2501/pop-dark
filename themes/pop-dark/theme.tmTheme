@@ -19,6 +19,16 @@
           <string>#3E3B39</string>
           <key>foreground</key>
           <string>#DEDEDE</string>
+          <key>caret</key>
+          <string>#FDAF1F</string>
+          <key>selection</key>
+          <string>#4AAAD6</string>
+          <key>invisibles</key>
+          <string>#67634F</string>
+          <key>gutterForeground</key>
+          <string>#9A9A9A</string>
+          <key>gutter</key>
+          <string>#4C4643</string>
         </dict>
       </dict>
       <dict>
