@@ -17,7 +17,9 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "attributePosition": "multiline",
+    "expand": "always"
   },
   "linter": {
     "enabled": true,
