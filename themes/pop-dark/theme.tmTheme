@@ -154,6 +154,17 @@
       </dict>
       <dict>
         <key>name</key>
+        <string>Functions</string>
+        <key>scope</key>
+        <string>entity.name.class</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#4AAAD6</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
         <string>Enum Variants</string>
         <key>scope</key>
         <string>entity.name.enum</string>
@@ -264,6 +275,17 @@
       </dict>
       <dict>
         <key>name</key>
+        <string>Functions</string>
+        <key>scope</key>
+        <string>entity.other.inherited-class</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#4AAAD6</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
         <string>Keywords</string>
         <key>scope</key>
         <string>keyword</string>
@@ -319,6 +341,17 @@
       </dict>
       <dict>
         <key>name</key>
+        <string>Exception Keywords</string>
+        <key>scope</key>
+        <string>keyword.control.flow.throw</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#F78C6C</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
         <string>Import Keywords</string>
         <key>scope</key>
         <string>keyword.control.import</string>
@@ -360,9 +393,20 @@
       </dict>
       <dict>
         <key>name</key>
-        <string>Operator Keywords</string>
+        <string>Operators</string>
         <key>scope</key>
         <string>keyword.operator</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FDC33B</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Word Operator Keywords</string>
+        <key>scope</key>
+        <string>keyword.operator.word</string>
         <key>settings</key>
         <dict>
           <key>foreground</key>
@@ -571,9 +615,77 @@
       </dict>
       <dict>
         <key>name</key>
+        <string>Comments</string>
+        <key>scope</key>
+        <string>punctuation.definition.comment</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#A0B4A7</string>
+          <key>fontStyle</key>
+          <string>italic</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Language-Specific Constant Punctuation</string>
+        <key>scope</key>
+        <string>punctuation.definition.constant</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FF9500</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
         <string>Brackets</string>
         <key>scope</key>
-        <string>punctuation.section.bracket</string>
+        <string>punctuation.definition.group</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FDAF1F</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Parameter Brackets</string>
+        <key>scope</key>
+        <string>punctuation.definition.parameters</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FDAF1F</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Strings</string>
+        <key>scope</key>
+        <string>punctuation.definition.string</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#73C48F</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Member Variables</string>
+        <key>scope</key>
+        <string>punctuation.definition.variable</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FFD68A</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Brackets</string>
+        <key>scope</key>
+        <string>punctuation.section</string>
         <key>settings</key>
         <dict>
           <key>foreground</key>
@@ -653,6 +765,17 @@
       </dict>
       <dict>
         <key>name</key>
+        <string>Classes</string>
+        <key>scope</key>
+        <string>support.class</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#4AAAD6</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
         <string>Built-in Functions</string>
         <key>scope</key>
         <string>support.function</string>
@@ -711,6 +834,17 @@
         <string>Member Variables</string>
         <key>scope</key>
         <string>variable.other.member</string>
+        <key>settings</key>
+        <dict>
+          <key>foreground</key>
+          <string>#FFD68A</string>
+        </dict>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>Non-Constant Variables</string>
+        <key>scope</key>
+        <string>variable.other.readwrite</string>
         <key>settings</key>
         <dict>
           <key>foreground</key>

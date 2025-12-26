@@ -13,6 +13,11 @@ const THEME_MAP = [
     name: "Comments",
   },
   {
+    tmTheme: "punctuation.definition.comment",
+    helix: "comment",
+    name: "Comments",
+  },
+  {
     tmTheme: "comment.block",
     helix: "comment.block",
     name: "Block Comments",
@@ -61,6 +66,20 @@ const THEME_MAP = [
     tmTheme: "constant.other",
     helix: "string.special",
     name: "Language-Specific Constants",
+  },
+  {
+    tmTheme: "punctuation.definition.constant",
+    helix: "string.special",
+    name: "Language-Specific Constant Punctuation",
+  },
+  {
+    tmTheme: "entity.name.class",
+    helix: "constructor",
+    name: "Functions",
+  },  {
+    tmTheme: "entity.other.inherited-class",
+    helix: "constructor",
+    name: "Functions",
   },
   {
     tmTheme: "entity.name.function",
@@ -133,6 +152,11 @@ const THEME_MAP = [
     name: "Exception Keywords",
   },
   {
+    tmTheme: "keyword.control.flow.throw",
+    helix: "keyword.control.exception",
+    name: "Exception Keywords",
+  },
+  {
     tmTheme: "keyword.control.import",
     helix: "keyword.control.import",
     name: "Import Keywords",
@@ -148,9 +172,14 @@ const THEME_MAP = [
     name: "Return Keywords",
   },
   {
-    tmTheme: "keyword.operator",
+    tmTheme: "keyword.operator.word",
     helix: "keyword.operator",
-    name: "Operator Keywords",
+    name: "Word Operator Keywords",
+  },
+  {
+    tmTheme: "keyword.operator",
+    helix: "operator",
+    name: "Operators",
   },
   {
     tmTheme: "keyword.other",
@@ -243,9 +272,19 @@ const THEME_MAP = [
     name: "Punctuation",
   },
   {
-    tmTheme: "punctuation.section.bracket",
+    tmTheme: "punctuation.section",
     helix: "punctuation.bracket",
     name: "Brackets",
+  },
+  {
+    tmTheme: "punctuation.definition.group",
+    helix: "punctuation.bracket",
+    name: "Brackets",
+  },
+  {
+    tmTheme: "punctuation.definition.parameters",
+    helix: "punctuation.bracket",
+    name: "Parameter Brackets",
   },
   {
     tmTheme: "punctuation.separator",
@@ -283,6 +322,11 @@ const THEME_MAP = [
     name: "Strings",
   },
   {
+    tmTheme: "punctuation.definition.string",
+    helix: "string",
+    name: "Strings",
+  },
+  {
     tmTheme: "string.other",
     helix: "string.special",
     name: "Special Strings",
@@ -303,6 +347,11 @@ const THEME_MAP = [
     name: "Built-in Types",
   },
   {
+    tmTheme: "support.class",
+    helix: "constructor",
+    name: "Classes",
+  },
+  {
     tmTheme: "variable",
     helix: "variable",
     name: "Variables",
@@ -319,6 +368,16 @@ const THEME_MAP = [
   },
   {
     tmTheme: "variable.other.member",
+    helix: "variable.other.member",
+    name: "Member Variables",
+  },
+  {
+    tmTheme: "variable.other.readwrite",
+    helix: "variable.other.member",
+    name: "Non-Constant Variables",
+  },
+  {
+    tmTheme: "punctuation.definition.variable",
     helix: "variable.other.member",
     name: "Member Variables",
   },
